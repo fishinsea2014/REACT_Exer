@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>hello</title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/babel">
+      /*JSX  , convert model to HTML, and insert predefined DOM nodes*/
+      var flag = false;
+      var div1={
+        fontSize:'20px',
+        color:'#f60'
+      };
+      var arr = ['aaa','bbb','ccc'];
+      var arrName = ['name1','name2','name3'];
+      var names =[];
+      for (var i=0;i<arrName.length;i++){
+        names.push(<div key={i} className={i}>hello, I am {arrName[i]}</div>)
+      }
+      ReactDOM.render(
+        <div>
+          {
+            arr.map(function (item, index) {
+              return <div key={index}>Hello, I am {item}</div>
+              
+            })
+          }
+          <h1>Hello world</h1>
+          <ul style={div1} className='list1'>
+           <li>{flag==true?'n1' : 'n11'}</li>
+           <li>n2</li>
+           <li>n3</li>
+         </ul>
+
+         {names}
+
+        </div>,
+        document.getElementById('example')
+      );
+      
+     
+      var child1 = React.createElement('li',null,'1111');
+      var child2 = React.createElement('li',null,'2222');
+      var child3 = React.createElement('li',null,'3333');
+      var str = React.createElement('ul',{className:'lists-ul'},child1,child2,child3);
+
+    </script>
+  </body>
+</html>
+

@@ -6,6 +6,11 @@
     <script  src="js_module/react.development.js"></script>
     <script  src="js_module/react-dom.development.js"></script>
     <script  src="js_module/babel.min.js"></script>
+    <style>
+      .list{
+        background-color: blueviolet;
+      }
+    </style>
   </head>
   <body>
     <div id="example"></div>
@@ -22,6 +27,69 @@
       for (var i=0;i<arrName.length;i++){
         names.push(<div key={i} className={i}>hello, I am {arrName[i]}</div>)
       }
+
+      var arrHtml = [<div>html1</div>,<div>html2</div>,<div>html3</div>]
+      var objName = {
+        name: 'Jason',
+        age: 30
+      }
+
+      function getName(objName){
+        return 'My name is ' + objName.name + ',age is '+ objName.age; 
+      }
+
+      //Component, method 1 by class
+      class SampleComponent extends React.Component{
+        render(){
+          return <h1>This component says: {this.props.msg}</h1>
+        }
+      };
+
+      //Component , method 2 by function
+      function SampleComponentByFunction(today) {  //Initial letter must be a capital.
+        return <h3>This is component defined by a function. Today is {today.day} , {today.month}</h3>
+      };
+
+      const elementSampleComponentByFunction = <SampleComponentByFunction day='100' month="October" />;
+
+      //Nested components
+      function ListDates(){
+        return (  // Must surround by <div> 
+          <div>  
+            <SampleComponentByFunction day='10' month="October" />
+            <SampleComponentByFunction day='20' month="Nov." />
+            <SampleComponentByFunction day='30' month="Dec." />
+          </div>
+        )
+      }
+
+      //Comment component
+      const comment = {
+        date : new Date(),
+        text : 'I enjoy learning React.',
+        author : {
+          name : 'Jason',
+          avatarUrl : 'http://placekitten.com/g/64/64'
+        }
+      }
+
+      function formatDate(aDate) {
+        return aDate.toLocaleDateString();
+      }
+
+      function CommentComponent(comment){ //Parameter 'comment' is 'date={comment.date} text={comment.text} author={comment.author}'
+        return (
+          <div className='list1'>
+            <div>
+              <img src={comment.author.avatarUrl}/>
+              <div>Author: {comment.author.name}</div>              
+            </div>
+            <div>Comment: {comment.text}</div>
+            <div>Date: {formatDate(comment.date)} </div>
+          </div>
+        );
+      };
+
       ReactDOM.render(
         <div>
           {
@@ -38,6 +106,34 @@
          </ul>
 
          {names}
+         <div>===============</div>
+         {arrHtml}
+         
+         <div>=====Get value from function==========
+          <div>{getName(objName)}</div>
+         </div>
+
+         <div>=====Components 1==========
+          <SampleComponent msg='hello from the component'/>
+         </div>
+
+         <div>=====Components method 2==========
+          <SampleComponentByFunction day='08' month='July'/>
+          {elementSampleComponentByFunction}
+         </div>
+
+         <div>=====Nested components ==========
+          <ListDates />          
+         </div>
+
+         <div>=====More complex components, a comment ==========
+          <CommentComponent 
+            date={comment.date}
+            text={comment.text}
+            author={comment.author}
+          />
+         </div>
+
 
         </div>,
         document.getElementById('example')

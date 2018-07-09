@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ref callback</title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    
+    <script type="text/babel">
+      function MyButton(props){
+        return <button ref={(dom) => props.scope.changeStyle = dom}>Button in new component </button>
+      }
+      
+      class TabList extends React.Component{
+        handleClick(){
+            this.myText.focus(); //Make the ref of myText be focused.
+            this.changeStyle.innerText = 'Text changed';
+            this.changeStyle1.style.color = 'red';
+        };
+
+        componentDidMount(){
+          this.changeStyle.style.color= 'blue';
+        }
+        
+        render () {
+          return(// Handle ref by a callback function
+            <div>
+              <input type="text" ref={(dom) => {this.myText = dom}} />
+              <button onClick={()=>this.handleClick()}>Foucus on input </button>
+              <button ref={(dom) => this.changeStyle1 = dom}>Change  style </button>
+              <div><MyButton scope={this}/></div>
+            </div>
+          )
+        };
+      };
+
+      ReactDOM.render(
+        <TabList />,
+        document.getElementById('example')
+      );
+    </script>
+  </body>
+</html>

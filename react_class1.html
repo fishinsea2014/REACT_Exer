@@ -39,10 +39,32 @@
       }
 
       //Component, method 1 by class
+      function SubComponent(props){ 
+        return <div>I am {props.name}</div>
+      }
       class SampleComponent extends React.Component{
-        render(){
-          return <h1>This component says: {this.props.msg}</h1>
+        constructor(props){
+          super(props);
+          this.state ={            
+            nameS:'NameInState'
+          }
         }
+        static defaultProps = {
+          msg:'Default Message inside the component'
+        }
+        //this.props is a fix item.
+        render(){
+          return (
+            <h3>This component says: {this.props.msg}</h3> ,
+            //<h3>This component' state says: I am {this.state.nameS}</h3> ,
+            <SubComponent name='subcomponent'/>      //For nested component   
+               
+          )
+        }
+      };
+      //Define default value outside of the component
+      SampleComponent.defaultProps ={
+        msg:'Default Message outside the component'
       };
 
       //Component , method 2 by function
@@ -77,18 +99,30 @@
         return aDate.toLocaleDateString();
       }
 
+      function AuthorComponent(props){
+        return (
+          <div>
+            <div>===Start of third level component===</div>
+            <img src={props.authorDetails.avatarUrl}/>
+            <div>Author: {props.authorDetails.name}</div> 
+            <div>===End of third level component===</div>
+          </div>
+          
+
+        )
+      } 
+
       function CommentComponent(comment){ //Parameter 'comment' is 'date={comment.date} text={comment.text} author={comment.author}'
         return (
           <div className='list1'>
-            <div>
-              <img src={comment.author.avatarUrl}/>
-              <div>Author: {comment.author.name}</div>              
-            </div>
+            <AuthorComponent authorDetails={comment.author}/>
             <div>Comment: {comment.text}</div>
             <div>Date: {formatDate(comment.date)} </div>
           </div>
         );
       };
+
+    
 
       ReactDOM.render(
         <div>
@@ -115,6 +149,7 @@
 
          <div>=====Components 1==========
           <SampleComponent msg='hello from the component'/>
+          <SampleComponent></SampleComponent>
          </div>
 
          <div>=====Components method 2==========
@@ -133,6 +168,8 @@
             author={comment.author}
           />
          </div>
+
+         
 
 
         </div>,

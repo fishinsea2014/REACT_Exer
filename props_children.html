@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>props.children</title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+    <style>
+
+    </style>
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/babel">
+     class HelloMessage extends React.Component{
+       render(){
+       console.log(this.props.children)
+         return (
+           <ul>
+            {
+              this.props.children.map(function(item,index){
+                return <li key={index}>hello,{item}</li>
+              })
+            }
+           </ul>
+         );
+       }
+     };
+     
+      
+      ReactDOM.render(
+        <HelloMessage>
+          <span>a</span>
+          <span>b</span>
+          <span>c</span>
+        </HelloMessage>,
+        document.getElementById('example')
+      );
+    </script>
+  </body>
+</html>

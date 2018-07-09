@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Life Cycle</title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    
+    <script type="text/babel">
+    /*
+        Lifecycle: mounting,  updating, unmounting
+    */
+      class Hello extends React.Component{
+        constructor(props, context) {
+          super(props, context);
+          this.state = {
+            opacity: 1.0
+          };
+        }
+
+        componentDidMount () {
+        //   this.timer = setInterval(()=> {
+        //     var opacity1 = this.state.opacity;
+        //     opacity1 -= .02;
+        //     if (opacity1 < 0.1) {
+        //       opacity1 = 1.0;
+        //     }
+        //     this.setState({
+        //       opacity: opacity1
+        //     });
+        //   }, 200);
+
+          this.timer = setInterval(function(){
+            var opacity = this.state.opacity;
+            opacity -= .04;
+            if (opacity < 0.1) {
+              opacity = 1.0;
+            }
+            this.setState({  //Reset the value in state.
+              opacity: opacity
+            });
+          }.bind(this), 200); //If not use =>, then need to add'.bind(this)'
+        }
+
+        componentWillUnmount(){ //Clear the timer when dystory the component
+            clearInterval(this.timer);
+        }
+
+        render () {
+          return (
+            <div style={{opacity: this.state.opacity}}>
+              <h1>Hello {this.props.name}</h1>
+            </div>
+          );
+        }
+      };
+
+      ReactDOM.render(
+        <Hello name="world"/>,
+        document.getElementById('example')
+      );
+    </script>
+  </body>
+</html>

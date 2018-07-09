@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TAB</title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+    <style>
+        ul,li{
+            padding: 0;
+            margin: 0;
+        }
+        #tab{
+            width:500px;
+            margin: 0 auto;
+            border:1px solic #ccc;
+        }
+
+        .tab-tit li{
+            float: left;
+            padding: 20px 0;
+            width: 25%;
+            list-style: none;
+            cursor: pointer;
+            background: #f4f4f4;
+            text-align: center;
+
+        }
+
+        .tab-tit .cur {
+            background: rgba(120, 207, 23, 20);
+            color:papayawhip;
+        }
+      
+    </style> 
+  </head>
+  <body>
+    <div id="example"></div>
+    
+    <script type="text/babel">
+      
+      class TabList extends React.Component{
+        constructor() {
+          super();
+
+          this.state = {
+           tab:[
+               {tabName:'News', id:1},
+               {tabName:'Nav', id:2},
+               {tabName:'Realtime', id:3},
+               {tabName:'Recommend', id:4},
+               {tabName:'Other', id:5},
+           ],
+           currentIndex:1,
+          };
+        };
+
+        tabchoiced(id){
+            this.setState({
+                currentIndex : id
+            })
+        }
+        
+
+        render () {
+            var _this = this;
+            var tabList = this.state.tab.map(function (item,index) {
+                            return <li style={{'width':100/_this.state.tab.length + '%'}}
+                                       key={index} 
+                                       onClick={this.tabchoiced.bind(_this,item.id)}
+                                       className={item.id == _this.state.currentIndex ? 'cur':''}>{item.tabName}</li>
+                        }.bind(_this));
+         return (
+             <div id='tab'>
+                <ul className="tab-tit">
+                    {
+                        // this.state.tab.map(function (item,index) {
+                        //     return <li key={index}>{item.tabName}</li>
+                        // })
+                        tabList
+                    }
+                </ul>
+                <div className='tab-con'>
+                    {this.state.tab.map(function(item,index){
+                        return (item.id == _this.state.currentIndex ? <p key={index}>{item.tabName}</p>: '')
+                    })}
+                </div>
+             </div>
+         )
+        }
+      };
+
+      ReactDOM.render(
+        <TabList />,
+        document.getElementById('example')
+      );
+    </script>
+  </body>
+</html>
+

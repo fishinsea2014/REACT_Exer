@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>event</title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    
+    <script type="text/babel">
+      
+      class TabList extends React.Component{
+        constructor() {
+          super();
+        };
+        setParent(e) {
+          console.log('parent');
+        };
+        setChild(e) {
+          console.log('child');
+          e.stopPropagation();   //Stop propagation
+        };
+        setOpen(e) {
+          console.log('open');
+          e.stopPropagation();   //Stop propagation
+          e.preventDefault() ;   //Cancel default actions.
+        }
+
+        render () {
+          return(
+            <div onClick={(event) => this.setParent(event)}> This is parent
+                <button onClick={(event) => this.setChild(event)}>Child</button>
+                <div>
+                    <a href='http://www.baidu.com' onClick={(event) => this.setOpen(event)}>Baidu</a>
+                </div>
+            </div>
+          )
+        }
+      };
+
+      ReactDOM.render(
+        <TabList />,
+        document.getElementById('example')
+      );
+    </script>
+  </body>
+</html>

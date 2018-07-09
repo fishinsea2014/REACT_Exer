@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>bind</title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+    <style>
+        .list1{
+            color: blue;
+        }
+
+        .list2{
+            color: rebeccapurple;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="example"></div>
+    
+    <script type="text/babel">
+        function List1(props) {
+            return <h3 className={props.flag ? 'list1' : 'list2'}>Flag is true</h3>
+        }
+
+        function List2() {
+            return <h3>Flag is false</h3>
+        }
+
+        function ListInfo(props){
+            return (props.flag ? <List1 flag={props.flag}  /> : <List2 />)
+        }
+
+      class Hello extends React.Component{
+        constructor() {
+          super();
+
+          this.state = {
+            flag: false         
+          };
+          //Declear the bind in constructor
+          this.isClick = this.bindClick.bind(this);
+        }
+
+        bindClick(){
+              this.setState({
+                  flag: !this.state.flag
+              });
+        }
+
+        bindMouseOn(){
+              this.setState({
+                  flag: true
+              });
+        }
+
+
+        bindMouseOut(){
+              this.setState({
+                  flag: false
+              });
+        }
+
+        
+
+        render () {
+            // return (this.state.flag ? <List1 /> : <List2 />);
+          return (
+              //List1 and List2 is conditional rending
+            <div>
+                {this.state.flag ? <List1 /> : <List2 />},  
+            
+                <button onMouseMove={() => this.bindMouseOn()}
+                        onMouseOut={() => this.bindMouseOut()}
+                        onClick={this.isClick}>
+                    {this.state.flag ? 'Open' : 'close'}
+                </button>
+
+                <div>===Way two===</div>
+                <button onClick={this.bindClick.bind(this)}>
+                    {this.state.flag ? 'Open2' : 'Close2'}
+                </button>
+
+                <div>===Way three===</div>
+                <button onClick={()=>this.bindClick()}>
+                    {this.state.flag ? 'Open3' : 'Close3'}
+                </button>
+
+                <ListInfo flag={this.state.flag} />
+
+            </div>
+          );
+        }
+      };
+
+      ReactDOM.render(
+        <Hello />,
+        document.getElementById('example')
+      );
+    </script>
+  </body>
+</html>

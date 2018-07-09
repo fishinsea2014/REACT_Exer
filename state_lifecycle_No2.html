@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Life Cycle</title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    
+    <script type="text/babel">
+    /*
+        Lifecycle: mounting,  updating, unmounting
+    */
+      class Hello extends React.Component{
+        constructor() {
+          super();
+          this.state = {
+            data: 0,
+            flag: true,
+          };
+        };
+
+        addOne(){
+          this.setState({data: this.state.data + 1});
+        };
+
+        removeShowNum(){
+          this.setState({flag : false});
+        };
+
+        
+
+        render () {
+          var showNumC = this.state.flag ? <ShowNum myNum={this.state.data}/> : '';
+          return (
+            <div >
+              <button onClick={() => this.addOne()}>Add One</button>
+              <div>{this.state.data}</div>
+              <div>===Show in another component====</div>
+              {showNumC}
+              <div>
+                <button onClick={()=>this.removeShowNum()}>Unmount Show Num</button>
+              </div>
+            </div>
+          );
+        }
+      };
+
+      class ShowNum extends React.Component{
+
+        componentWillMount(){
+          console.log('The component is mounting');
+          alert();
+        }
+
+        componentDidMount(){
+          console.log('The component is mounted');
+          alert();
+        }
+
+        componentWillUpdate() {
+          console.log('The component is updating');
+          alert();
+        }
+
+        componentDidUpdate() {
+          console.log('The component is updated');
+          alert();
+        }
+
+        componentWillUnmount(){
+          console.log('The component is unmounting');
+          alert();
+        }
+
+
+        render(){
+          return (
+            <div>
+            <p>{this.props.myNum}</p>
+            </div>
+          )
+        }
+      }
+
+      ReactDOM.render(
+        <Hello name="world"/>,
+        document.getElementById('example')
+      );
+    </script>
+  </body>
+</html>

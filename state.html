@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>component</title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+    <style>
+
+    </style>
+  </head>
+  <body>
+    <div id="example"></div>
+     <!-- super(props); Subclass reference parent's constructor, Component(props)
+     constructor  
+     super()
+      -->
+    <script type="text/babel">
+     class HelloMessage extends React.Component{
+      constructor(props){
+        super(props);   
+        this.state ={
+          name:'State Name'
+        }
+      }
+       render(){
+         return (
+          <div>
+            <h1>hello,{this.state.name}</h1>
+            <h1>hello,{this.props.name}</h1>
+          </div>
+         )
+       }
+     };
+
+      
+      ReactDOM.render(
+        <HelloMessage name="PropsName"/>,
+        document.getElementById('example')
+      );
+    </script>
+  </body>
+</html>

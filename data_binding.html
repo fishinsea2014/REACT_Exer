@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!-- **If the value in radio input is not set properly, could lead to problem.  -->
+<html>
+  <head>
+    <title>Data Binding in Form </title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+    <script src ='js_module/jquery-1.11.1.min.js'></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    
+    <script type="text/babel">
+    
+      
+      class TabList extends React.Component{
+        constructor(){
+          super();
+          this.state = {
+            value: 'this is default value',
+            male: false,
+            gender:'',
+            selectedColor: '',
+            ajaxResult:[]
+          }
+        }
+
+        handleClick(e){
+          this.setState({value: e.target.value} )
+        };
+
+        handleRadio(e){
+          this.setState({male: e.target.value == 'man' ? true : false});
+          let g = '';
+
+          if (e.target.value == 'man') {
+            g ='male';
+          } else if (e.target.value == 'woman') { 
+            g = 'famale';
+          }else {
+            g = 'others';
+          }
+          this.setState({gender: g})
+        }
+
+        handleSelect(e){
+          this.setState({selectedColor: e.target.value});
+
+        }
+
+        handleAjax(){
+          var _this=this;
+          $.ajax({
+            type:'get',
+            url: this.props.url,
+            dataType:'JSON',
+            success:function(data){
+              // if (data.code=='200'){
+                console.log(data);
+                _this.setState({ajaxResult:data.data});
+              // }
+            },
+            
+            error:function(err){
+              console.log(err)
+            },
+          })
+        }
+
+       
+        
+        render () {
+          return(// Handle ref by a callback function
+            <div>
+              <input type='text' defaultValue="Default by org js" />
+              <br />
+              <input type="text" onChange={(event) => this.handleClick(event)}/>
+              <p>Input value: {this.state.value}</p>
+              <div>===Radio button===
+              <input type="radio" name="radioName" checked={this.state.male} onChange={(e)=>this.handleRadio(e)} value='man'/>Male              
+              <input type="radio" name="radioName" checked={!this.state.male} onChange={(event)=>this.handleRadio(event)} value='woman'/>Famale
+              <p>Selected gender: {this.state.gender}</p>
+              </div> Select form:
+              <select value={this.state.selectedColor} onChange={(e) => this.handleSelect(e)}> 
+                <option value='red'>Red</option>
+                <option value='blue'>Blue</option>
+                <option value='green'>Green</option>
+              </select>
+              <div>Selected color: {this.state.selectedColor}</div>
+
+              <div>===Ajax request===
+              <button onClick={()=>this.handleAjax()}>Request Data</button>
+            </div>
+              <label>Display data: </label>
+              
+              <ul>
+                
+                {                  
+                  this.state.ajaxResult.map(function(item,index){
+                    return <li key={index}>{item.first_name}</li>;
+                  })
+                }
+              </ul>
+
+
+
+              <div>
+              </div>            
+              
+            </div>
+          )
+        };
+      }
+      
+
+      ReactDOM.render(
+        <TabList url='https://reqres.in/api/users?page=2'/>,
+        document.getElementById('example')
+      );
+      
+    </script>
+  </body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pass arguments between sibling components</title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/babel">
+    //Parent component, children component interact through parent component.
+    class ParentList extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          data:'A', 
+        }; 
+      };
+      change(data) {
+        this.setState ({
+          data:data
+        });
+      };
+      render() {
+        var _this = this;
+        return ( //childA take the method of change() in ParentList as props which allows childA change the data in ParentList.
+          <div>
+            <ChildA dataChange={this.change.bind(this)}/>
+            <ChildB data={this.state.data}/>
+          </div>
+          )
+      }
+    };
+    //ChildA component
+    class ChildA extends React.Component {
+      render() {
+        return (// childA execute the method of dataChange() in props
+          <div>
+            <div>A: <button onClick={(e) => this.props.dataChange('Data from A')}>Transfer data to component B</button></div>
+          </div>
+          )
+      }
+    };
+    //ChildB component
+    class ChildB extends React.Component {
+      render() {
+        return (
+          <div>
+          <div>B:{this.props.data}</div>
+          </div>
+          )
+      }
+    };
+
+    ReactDOM.render(
+      <ParentList  />,
+      document.getElementById('example')
+    );
+    </script>
+  </body>
+</html>

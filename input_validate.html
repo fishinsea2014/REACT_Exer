@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ref</title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    
+    <script type="text/babel">
+      
+      class MyForm extends React.Component{
+        constructor(props) {
+          super(props);
+          this.state ={
+            email :"",
+            intro: "",
+            city: "Wellington",
+            male: true, 
+            emailError: "",
+            introError: ""
+          };
+          this.handleEmail = this.handleEmail.bind(this);
+          this.handleIntro = this.handleIntro.bind(this);
+          this.handleCity = this.handleCity.bind(this);
+          this.handleGender = this.handleGender.bind(this);
+          this.handleSubmit = this.handleSubmit.bind(this);
+        }
+        
+        handleEmail(e){
+          let value= e.target.value;
+          var error = '';
+          if(!(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(value))) {
+          error = 'Email is invalid';
+          };
+          this.setState({
+            email: value,
+            emailError: error
+          });
+        }
+
+        handleIntro(e) {
+        // var value = e.target.value;
+        let target = e.target;
+        let name = target.name;
+        let value = target.value;
+        var error = "";
+        if(value.length < 10) {
+          error = "Intro info should has more than 10 words";
+        }
+        this.setState({
+          [name]: value,
+          introError: error
+        });
+      }
+      handleCity(e) {
+        var value = e.target.value;
+        this.setState({
+          city: value,
+        });
+      }
+      handleGender(e) {
+        var male = e.target.value == 'man';
+        var male2 = e.target.value;
+        this.setState({
+          male: male,
+          male2:male2
+        });
+      };
+      handleSubmit(event) {
+        //alert('Your favorite flavor is: ' + JSON.stringify(this.state));
+        //Transmit data to backend.
+        var data = {
+          email: this.state.email,
+          intro: this.state.intro,
+          city: this.state.city,
+          male: this.state.male2
+        };
+        alert('Your infomation is: ' + JSON.stringify(data));
+        //event.preventDefault();
+      }
+
+        
+        render () {
+          return(
+          <div>
+            <p>
+              <label name='email'>email:</label>
+              <input type="text" name='email' value={this.state.email} onChange={this.handleEmail}/>
+              <span>{this.state.emailError}</span>
+            </p>
+            <p>
+              <label name='intro'>intro:</label>
+              <textarea type='text' name='intro' value={this.state.intro} onChange={this.handleIntro} />
+              <span>{this.state.introError}</span>
+            </p>
+            <p>
+              <label name='city'>Cities:</label>
+              <select  name='city' id='city' value={this.state.city} onChange={this.handleCity}>
+                <option value='hz'>Auckland</option>
+                <option value='bj'>Beijing</option>
+                <option value='sh'>Shanghai</option>
+              </select>
+            </p>
+            <p>
+              <label>Gender:</label>
+                <input type='radio' name='radioButton' checked={this.state.male} onChange={this.handleGender} value='man' />Male
+                <input type='radio' name='radioButton' checked={!this.state.male} onChange={this.handleGender} value='woman'/>Famale
+            </p>
+            <input type="button" value="Submit" onClick={this.handleSubmit}/>              
+          </div>
+          )
+        }
+      };
+
+      ReactDOM.render(
+        <MyForm />,
+        document.getElementById('example')
+      );
+    </script>
+  </body>
+</html>

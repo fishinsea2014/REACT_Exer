@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pass arguments from child to parents</title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/babel">
+    //Parent
+    class ParentList extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          data:'I am dad',
+          checked:true
+        }; 
+      };
+
+      childChange (data) {
+        this.setState({checked: data});
+      }
+      
+      render() {
+        var _this = this;
+        var sentence = this.state.checked ? 'I am son' : 'I am dad'
+        return (
+          <div>
+            <div>Somebody says: {sentence}</div>
+            <ChildA text='DadName'
+                    checked={this.state.checked}
+                    callbackParent = {this.childChange.bind(this)}/>
+          </div>
+          )
+      }
+    };
+    //ChildA
+    class ChildA extends React.Component {
+      constructor(props){
+        super(props);
+        this.state = {
+          checked: props.checked
+        }        
+      };
+
+      shiftState(){
+        let newState = !this.state.checked;
+        this.setState ({
+          checked:newState
+        });
+        this.props.callbackParent(newState);
+      }
+      render() {
+        return (
+          <div>
+            <div>
+            Is son speak:
+            <input type='checkbox' 
+                   checked={this.props.checked} 
+                   onChange={(e) => this.shiftState(e)}/>
+            
+            </div>
+            
+          </div>
+          )
+      }
+    };
+
+
+    ReactDOM.render(
+      <ParentList  />,
+      document.getElementById('example')
+    );
+    </script>
+  </body>
+</html>

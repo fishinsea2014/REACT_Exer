@@ -1,12 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import Demo from './demo';
-import Router from './router';
-import registerServiceWorker from './registerServiceWorker';
+import {createStore} from 'redux';
+import Counter from './components/Counter';
+import counter from './reducers'
+// import App from './App';
 
-ReactDOM.render(
-    <Router />,
+const store = createStore(counter);
+const render = () =>ReactDOM.render(
+    <Counter 
+        value={store.getState()}
+        onIncrement = {()=>store.dispatch({type:'INCREMENT'})}
+        onDecrement = {()=>store.dispatch({type:'DECREMENT'})}
+    />,
     document.getElementById('root'));
-registerServiceWorker(); //Cache request
+render()
+store.subscribe(render);

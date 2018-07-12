@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Redux basic example</title>
+    <script src="https://unpkg.com/redux@latest/dist/redux.min.js"></script>
+  </head>
+  <body>
+    <div>
+      redux exercise
+    </div>
+    <script>
+      var createStore = Redux.createStore;
+
+      var reducer_0 = function (state={data: 1}, action){
+        // console.log('reducer_0 was called with state', state, 'and action', action)
+      };
+
+      var store_0 = Redux.createStore(reducer_0);
+
+
+      // reducer 3
+      var reducer_3 = function(state={},action){
+        // console.log('reducer_3 was called with steate', state, 'and function', action)
+
+        switch (action)
+        {
+          case 'SAY-SOMETHNG':
+            return {
+              ...state,
+              message: action.value
+            }
+          default: 
+            return state;
+        }
+      }
+
+      var store_3 = createStore(reducer_3);
+      // console.log('store_3 state after initialization: ', store_3.getState());
+      console.log("=====Add Actions========")
+
+      //Combine reducer
+      var userReducer =  function(state ={}, action){
+        console.log('UserReducer was called with state', state, 'and action', action)
+        switch(action.type){
+          case 'SET_NAME':
+            return {
+              ...state,
+              name: action.name
+            }
+          default:
+            return state;
+        }
+      }
+
+      // var itemReducer =  function(state =['item'], action){
+        var itemReducer =  function(state =[], action){
+        console.log('ItemReducer was called with state', state, 'and action', action)
+        switch(action.type){
+          case 'ADD_ITEM':
+            return [
+              ...state,
+              action.item
+            ]
+          default:
+            return state;
+        }
+      }
+   
+
+      var reducer = Redux.combineReducers({
+        user: userReducer,
+        item: itemReducer
+      })
+
+      var store_combine = createStore(reducer);
+      console.log('store_combine state after initialization: ', store_combine.getState())
+
+      console.log('===Dispatch an action===')
+      // store_combine.dispatch({
+      //   type: 'SET_NAME',
+      //   name: 'setName'
+      // })
+
+      var setNameActionCreator = function (name){
+        return {
+          type: 'SET_NAME',
+          name:name
+        }        
+      }
+
+      store_combine.dispatch(setNameActionCreator('bob'))
+
+      setNameActionCreator = function (name){
+        return {
+          type: 'ADD_ITEM',
+          item:name
+        }        
+      }
+
+
+      store_combine.dispatch(setNameActionCreator('item1'))
+      console.log('store_combine state after action SET_NAME:', store_combine.getState())
+
+      //Monitor redux store
+      console.log('===Monitor store===')
+      var monitorReducer =  Redux.combineReducers({item: itemReducer})
+      var store_monitor =  createStore(monitorReducer);
+      store_monitor.subscribe(function(){
+        console.log('store_monitor has been updated. Lastest store state:', store_monitor.getState())
+      })
+
+      store_monitor.dispatch(setNameActionCreator(1234))
+      store_monitor.dispatch(setNameActionCreator(1234))
+
+
+
+
+      // console.log('===Async action creator===')
+      // var thunkMiddleware = function ({ dispatch, getState }) {
+      //   // console.log('Enter thunkMiddleware');
+      //   return function(next) {
+      //       // console.log('Function "next" provided:', next);
+      //       return function (action) {
+      //           // console.log('Handling action:', action);
+      //           return typeof action === 'function' ?
+      //               action(dispatch, getState) :
+      //               next(action)
+      //       }
+      //   }
+      // }
+
+      // var asyncReducer = Redux.combineReducers({
+      //   speaker: function (state ={}, action){
+      //     console.log('speaker was called with state', state, 'and action', action)
+      //     switch (action.type){
+      //       case 'SAY' :
+      //         return {
+      //           ...state,
+      //           message: action.message
+      //         }
+
+      //         default: 
+      //           return state;
+      //     }
+      //   }
+      // })
+      
+      // const finalCreateStore = Redux.applyMiddleware(thunkMiddleware)(createStore)
+
+      // var store_async = finalCreateStore(asyncReducer)
+
+      // // var asyncSayActionCreator = function(message){
+        
+      // //     return function(dispatch){
+      // //       setTimeout(() => {
+      // //         dispatch({
+      // //           type:'SAY',
+      // //           message
+      // //         })
+      // //       }, 1000);  
+      // //     }
+      // // }
+
+      // var asyncSayActionCreator = function (message) {
+      //   return function (dispatch) {
+      //       setTimeout(function () {
+      //           dispatch({
+      //               type: 'SAY',
+      //               message
+      //           })
+      //       }, 2000)
+      //   }
+      // }
+
+      // console.log(asyncSayActionCreator('I am async action'))
+      // // debugger;
+
+      // store_async.dispatch(asyncSayActionCreator('I am async action'));
+      // console.log('async store state after SAYS : ', store_async.getState())
+
+
+      
+    </script>
+  </body>
+</html>

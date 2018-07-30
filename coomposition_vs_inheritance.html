@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Exer</title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+    <link rel="stylesheet" href="css/fancyBorder.css" >
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        function FancyBoarder(props) {
+            return (
+                //{props.children} is the content in Fancyborder tag in WelcomeDialog component
+                <div className={'FancyBorder FancyBorder-' + props.color}>
+                    {props.children} 
+                </div>
+            )
+        }
+
+        function WelcomeDialog() {
+            return (
+                <FancyBoarder color='blue'>
+                    <h1 className="Dialog-title">
+                        Welcome
+                    </h1>
+                    <p className="Dialog-message">
+                        Thank you for visiting our spacecraft!
+                    </p>                
+                </FancyBoarder>
+            )
+        }
+
+        function Dialog(props) {
+            return (
+                <FancyBoarder color="blue">
+                <h1 className="Dialog-title">
+                    {props.title}
+                </h1>
+                <p className="Dialog-message">
+                    {props.message}
+                </p>
+                </FancyBoarder>
+            );            
+        }
+
+        function WelcomeDialog1(props) {
+            return (
+                <Dialog
+                    title="Welcome"
+                    message="Welcome to Jason's website"></Dialog>
+            )
+        }
+        
+
+        ReactDOM.render(
+            <div>
+                <h3>===lets other components pass arbitrary children to them by nesting the JSX ===</h3>
+                <WelcomeDialog></WelcomeDialog>
+                <h3>=== Use a more “specific” component renders a more “generic” one and configures it with props===</h3>
+                <Dialog title="Welcome"
+                    message="Welcome to Jason's website"></Dialog>
+
+            </div>,
+            document.getElementById('root')
+        )
+    </script>
+</body>

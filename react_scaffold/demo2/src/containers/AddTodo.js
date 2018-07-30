@@ -7,6 +7,7 @@ let AddTodo = ({ dispatch }) => { //{ dispatch } represent the dispatch in store
     return(
         <div>
             <form onSubmit={e =>{
+                debugger;
                 e.preventDefault();
                 if (!input.value.trim()){
                     return

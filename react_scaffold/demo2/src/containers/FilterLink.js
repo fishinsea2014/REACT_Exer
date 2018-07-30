@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import { setVisibilityFilter } from '../actions'
 import Link from '../components/Link'
 
+// ownPrpos is a default argument, represent the props of its own.
 const mapStateToProps = (state, ownProps) => ({
     active: ownProps.filter === state.visibilityFilter
 })

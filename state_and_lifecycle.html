@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Exer</title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+        //Orginal codes, will encapsulate Clock component
+        // function tick() {
+        //     const element = (
+        //         <div>
+        //             <h1>Hello, world!</h1>
+        //             <h2>It is {new Date().toLocaleTimeString()}.</h2>
+        //         </div>
+        //     );
+        //     ReactDOM.render(
+        //         element,
+        //         document.getElementById('root')
+        //     );
+        // };
+        // setInterval(tick,1000);
+            
+        //Convert method to a class and add a state for the class, can also add lifecycle hooks
+        function FormattedData(props) {
+            return <h2> It is {props.date.toLocaleTimeString()}</h2>
+        }
+        class Clock extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {date: new Date()}; //Step 2
+            }
+
+            //Add lifecycle hooks
+            componentDidMount(){
+                this.timerID = setInterval( //Define timerID 
+                    () => this.tick(), // Step 4
+                    1000
+                )
+            }
+
+            tick(){ // Step5
+                this.setState({ // state must be setState
+                    date: new Date()
+                });
+            }
+
+            componentWillUnmount(){ // Step 6
+                clearInterval(this.timerID);
+            }
+
+            render() {
+                return (
+                <div>
+                    <h1>Hello, world!</h1>
+                    <FormattedData date={this.state.date}/>
+                    {/*<h2>It is {this.state.date.toLocaleTimeString()}.</h2>  //Step 3*/}
+                </div>
+                );
+            }
+        }
+
+        function App() {    
+            return (
+                <div>
+                    <Clock />
+                    <Clock />
+                    <Clock />
+                </div>
+                
+            )
+            
+        }
+        ReactDOM.render(
+            <App />, //Step 1
+            document.getElementById('root')
+        )
+
+
+
+    </script>
+</body>

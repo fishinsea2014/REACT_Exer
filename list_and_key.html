@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Exer</title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+        //Go through list of numbers , show a list of li tag by map
+        const numbers= [1,2,3,4,5];
+        const listItems = numbers.map((num) => <li key={num.toString()}>{num}</li>);
+        //Reconstruct the list above by add a NumberList component
+        function NumberList(props) {
+            const numbers = props.numbers;
+            const listItems = numbers.map((num,index) => <li key={index}>{num}</li>); //Use index as keys
+            return (
+                <ul>{listItems}</ul>
+            )
+        }
+
+        //Reconstruct the component above by extract ListItem component
+        function ListItem(props) {
+            return <li>{props.value}</li>
+        }
+
+        function NumberList1(props) {
+            const numbers = props.numbers;
+            const listItems = numbers.map(
+                (num,index) => <ListItem key={index} value={num}></ListItem>); //Use index as keys
+            
+            return (
+                <ul>{listItems}</ul>
+            )
+        }
+
+        function NumberList2(props) {
+            const numbers = props.numbers;
+            
+            
+            return (
+                <ul>{
+                    numbers.map(
+                (num,index) => <ListItem key={index} value={num}></ListItem>)
+                }</ul>
+            )
+        }
+
+
+
+
+        ReactDOM.render(
+            //Insert listItems into an ul element
+            <div>
+                <ul>{listItems}</ul>
+
+                <h2>===Reconstruct the list above by add a NumberList component===</h2>
+                <NumberList numbers={numbers}></NumberList>
+
+                <h2>===Reconstruct the component above by extract ListItem component===</h2>
+                <NumberList1 numbers={numbers}></NumberList1>
+
+                <h2>===Reconstruct the component above by moving map method into the bracket in return ===</h2>
+                <NumberList2 numbers={numbers}></NumberList2>
+
+
+            </div>
+            ,document.getElementById('root')
+
+            
+
+            
+        )
+    </script>
+</body>

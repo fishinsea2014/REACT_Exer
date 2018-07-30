@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Exer</title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        function BoilingVerdict(props) {
+            if (props.celsius >= 100){
+                return <p>Water is boiling</p>;
+            }
+
+            return <p>Water is not boiling</p>;
+        }
+
+        class Caculator extends React.Component{
+            constructor (props) {
+                super(props);
+                this.handleChange = this.handleChange.bind(this);
+                this.state = {
+                    temperature:"",
+                }
+            }
+
+            handleChange(e) {
+                this.setState({temperature: e.target.value});  
+            }
+
+            render(){
+                const temperature = this.state.temperature;
+                return(
+                    <div>
+                        <fieldset>
+                            <legend> Please input a celsius</legend>
+                            <input 
+                                value={temperature}
+                                onChange={this.handleChange} />
+                            <BoilingVerdict celsius={parseFloat(temperature)}></BoilingVerdict>
+                        </fieldset>
+                    </div>
+                )
+            }
+        }      
+
+        ReactDOM.render(
+            <div>
+                <Caculator></Caculator>                
+            </div>,
+            document.getElementById('root')
+        )
+    </script>
+</body>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Exer</title>
+    <meta charset="UTF-8" />
+    <script  src="js_module/react.development.js"></script>
+    <script  src="js_module/react-dom.development.js"></script>
+    <script  src="js_module/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+        class Toggle extends React.Component{
+            constructor(props){
+                super(props);
+                this.state = {
+                    isToggleOn: true,
+                    name: "Jason"
+                    };
+                
+                //This binding is necessary to make 'this' work in the callback
+                //this.handleClick = this.handleClick.bind(this)
+            }
+
+            handleClick(){
+                this.setState(prevState => ({
+                    isToggleOn: !prevState.isToggleOn
+                }));
+            }
+
+            sayLog = () =>{
+                console.log("this is: ", this.state.isToggleOn); // Here this is the current component
+                
+            }
+                
+            sayLog1 () {
+                console.log("this is say log 1: ", this); //Here this is undefined if called directly.
+            }
+
+            //Pass argument when handling events
+            preventPop(name, e) {
+                
+                e.preventDefault();
+                console.log('Prevent pop:', name);
+            }
+
+            render(){
+                return(
+                    <div>   
+                        <button onClick={this.handleClick}>   
+                            {this.state.isToggleOn ? 'ON' : 'OFF'}
+                        </button>
+
+                        <button onClick={this.sayLog}>Say Log</button>
+                        <button onClick={(e)=>this.sayLog1(e)}>Say Log 1</button> {/*Not recommended */}
+                        <div> ====Pass argument when handling events====</div>
+                        {/*<a href="https://reactjs.org" onClick={this.peventPop1.bind(this, this.state.name)}>Click</a>*/}
+                        <a href="https://reactjs.org"    onClick={this.preventPop.bind(this,this.state.name)}>Way 1 of pass argument</a>
+
+                        <div>=====No2 method of pass argument====</div>
+                        <a href="https://reactjs.org"    onClick={(e) => this.preventPop(this.state.name,e)}>Way 2 of pass argument </a>
+
+                    </div>
+                )
+            };
+        }
+
+        ReactDOM.render(
+            <Toggle />,
+            document.getElementById('root')
+        );
+    </script>
+</body>

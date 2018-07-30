@@ -6,15 +6,16 @@ const Footer = () => (
         Show:
 
         <FilterLink filter='SHOW_ALL'>
-            All
+            All | 
         </FilterLink>
 
+
         <FilterLink filter='SHOW_ACTIVE'>
-            Active
+            | Active |
         </FilterLink>
 
         <FilterLink filter='SHOW_COMPLETED'>
-            Completed
+            | Completed |
         </FilterLink>
 
 
